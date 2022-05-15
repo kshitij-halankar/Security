@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    
+<!--    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>sec.restwithsso.LoginFilter</filter-class>
+    </filter>-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>AuthenticationSSO</web-resource-name>
+            <url-pattern>/Employee/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Developer</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+    </login-config>
+    <security-role>
+        <role-name>Developer</role-name>
+    </security-role>
+    
+    <servlet>
+        <servlet-name>EmployeeREST</servlet-name>
+        <servlet-class>sec.restwithsso.EmployeeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EmployeeREST</servlet-name>
+        <url-pattern>/EmployeeREST/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ResteasyServlet</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>sec.restwithsso.EmployeeApplication</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResteasyServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+</web-app>
